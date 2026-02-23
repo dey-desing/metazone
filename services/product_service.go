@@ -1,6 +1,6 @@
 package services
 
-import "METAZONE/models"
+import "metazone/models"
 
 // Lista de productos en memoria
 var products []*models.Product

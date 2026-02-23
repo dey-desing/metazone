@@ -1,7 +1,7 @@
 package services
 
 import (
-	"METAZONE/models"
+	"metazone/models"
 	"errors")
 
 var payments []models.Payment

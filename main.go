@@ -1,15 +1,39 @@
 package main
 
 import (
-	"METAZONE/services"
+	"metazone/services"
 	"bufio"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"log"
+	"net/http"
+
+	"metazone/db"
+	"metazone/controllers"
+	"metazone/models"
 )
 
 func main() {
+
+	//conectar a la base de datos
+	dbConn, err := db.Connect()
+	if err != nil {
+		log.Fatalf("Error al conectar a la base de datos %v", err)
+	}
+
+	defer dbConn.Close()
+
+	controllers.InitRoutes()
+
+	fmt.Println("Conexión a la base de datos establecida exitosamente")
+
+	//levantar un servidor para verificar la conexion con la base de datos
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatalf("Error al iniciar el servidor: %v", err)
+	}
+
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -60,9 +84,11 @@ func createUserMenu(reader *bufio.Reader) {
 	password, _ := reader.ReadString('\n')
 
 	user, err := services.CreateUser(
-		strings.TrimSpace(name),
-		strings.TrimSpace(email),
-		strings.TrimSpace(password),
+		models.User{
+			Name:     strings.TrimSpace(name),
+			Email:    strings.TrimSpace(email),
+			Password: strings.TrimSpace(password),
+		},
 	)
 
 	if err != nil {
@@ -158,3 +184,4 @@ func listPaymentsMenu() {
 		fmt.Printf("ID: %d | Pedido ID: %d | Monto: %.2f | Método: %s | Estado: %s\n", p.ID, p.OrderID, p.Amount, p.Method, p.Status)
 	}	
 }
+

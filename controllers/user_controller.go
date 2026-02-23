@@ -1,12 +1,33 @@
-package models
+package controllers
 
-type Payment struct {
-	ID      int
-	OrderID int
-	Amount  float64
-	Method  string
-	Status  string
-	prueba  string
-	internalID string
-	runerID int	
+import (
+	"encoding/json"
+	"net/http"
+	"metazone/services"
+	"metazone/models"
+)
+
+func InitRoutes() {
+	http.HandleFunc("/users", UsersHandler)
+}
+
+func UsersHandler(w http.ResponseWriter, r *http.Request) {
+
+	switch r.Method {
+
+	case http.MethodGet:
+		users := services.GetUsers()
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(users)
+
+	case http.MethodPost:
+		var user models.User
+		json.NewDecoder(r.Body).Decode(&user)
+		services.CreateUser(user)
+		w.WriteHeader(http.StatusCreated)
+		json.NewEncoder(w).Encode(user)
+
+	default:
+		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
+	}
 }

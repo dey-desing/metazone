@@ -1,30 +1,44 @@
 package services
 
-import "METAZONE/models"
+import (
+	"metazone/models"
+	"metazone/db"
+)
 
 // Lista de usuarios en memoria
 var users []models.User
 
 // Crear un nuevo usuario
-func CreateUser(name, email, password string) (*models.User, error) {
-	user := models.User{
-		ID:    len(users) + 1,
-		Name:  name,
-		Email: email,
-	}
+func CreateUser(user models.User) (*models.User, error) {
 
-	err := user.SetPassword(password)
+	query := "INSERT INTO users (name, email, password) VALUES (?, ?, ?)"
+	result, err := db.DB.Exec(query, user.Name, user.Email, user.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	users = append(users, user)
+	id, _ := result.LastInsertId()
 
-	// Retorna el usuario recién agregado al slice
-	return &users[len(users)-1], nil
+	return &models.User{
+		ID:    int(id),
+		Name:  user.Name,
+		Email: user.Email,
+		Password: user.Password,
+	}, nil
 }
 
-// Obtener todos los usuarios
 func GetUsers() []models.User {
+
+	rows, _ := db.DB.Query("SELECT id, name, email FROM users")
+	defer rows.Close()
+
+	var users []models.User
+
+	for rows.Next() {
+		var u models.User
+		rows.Scan(&u.ID, &u.Name, &u.Email)
+		users = append(users, u)
+	}
+
 	return users
 }

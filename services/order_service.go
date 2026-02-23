@@ -1,6 +1,6 @@
 package services
 
-import "METAZONE/models"
+import "metazone/models"
 
 var orders []models.Order
 

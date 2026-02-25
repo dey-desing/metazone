@@ -22,6 +22,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Entro a home")
 	templates.ExecuteTemplate(w, "base.html", nil)
 }
+func registerPage(w http.ResponseWriter, r *http.Request) {
+	templates.ExecuteTemplate(w, "base.html", nil)
+}
+
+func loginPage(w http.ResponseWriter, r *http.Request) {
+	templates.ExecuteTemplate(w, "base.html", nil)
+}
 
 func main() {
 
@@ -41,12 +48,16 @@ func main() {
 	//Rutas del sistema
 	controllers.InitRoutes(r)
 
-	//Rita para vista html
+	//Ruta para vista html
 	r.HandleFunc("/" , home).Methods("GET")
 
+	//Estatic files
+	r.PathPrefix("/static/").Handler(
+	http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))),
+)
 	//levantar un servidor para verificar la conexion con la base de datos
-	fmt.Println("Servidor iniciado en http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	fmt.Println("Servidor iniciado en http://localhost:8000")
+	log.Fatal(http.ListenAndServe(":8000", r))
 	
 	reader := bufio.NewReader(os.Stdin)
 

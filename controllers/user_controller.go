@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"metazone/services"
 	"metazone/models"
+	"github.com/gorilla/mux"
 )
 
-func InitRoutes() {
-	http.HandleFunc("/users", UsersHandler)
+func InitRoutes(r *mux.Router) {
+	r.HandleFunc("/users", UsersHandler).Methods("GET", "POST")
 }
 
 func UsersHandler(w http.ResponseWriter, r *http.Request) {

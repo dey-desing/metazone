@@ -1,0 +1,54 @@
+{{ define "base.html" }}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>MetaZone</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <style>
+        .navbar-custom {
+            background-color: #4F5DFF;
+        }
+
+        .navbar-custom .navbar-item,
+        .navbar-custom .navbar-link {
+            color: white;
+            font-weight: 600;
+        }
+
+        .navbar-custom .navbar-item:hover {
+            background-color: #3d4ae0;
+            color: white;
+        }
+
+        .hero-custom {
+            background: linear-gradient(135deg, #4F5DFF, #6C79FF);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-custom">
+  <div class="navbar-brand">
+    <a class="navbar-item">
+      MetaZone
+    </a>
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-end">
+      <a class="navbar-item" href="/">Inicio</a>
+      <a class="navbar-item" href="/login">Login</a>
+      <a class="navbar-item" href="/register">Registro</a>
+    </div>
+  </div>
+</nav>
+
+{{ template "content" . }}
+
+</body>
+</html>
+{{ end }}
+

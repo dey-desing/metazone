@@ -33,6 +33,7 @@ func (p *Product) ReduceStock(s int) error {
 	return nil
 }	
 
+//Constructor para crear un nuevo producto con validaciones
 func NewProduct(id int, name, description string, price float64, stock int) (*Product, error) {
 	if price <= 0 {
 		return nil, fmt.Errorf("el precio debe ser mayor a 0")

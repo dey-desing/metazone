@@ -9,11 +9,19 @@ import (
 	"strings"
 	"log"
 	"net/http"
-
+	"html/template"
+	
+	"github.com/gorilla/mux"
 	"metazone/db"
 	"metazone/controllers"
 	"metazone/models"
 )
+var templates = template.Must(template.ParseGlob("templates/*.html"))
+
+func home(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entro a home")
+	templates.ExecuteTemplate(w, "base.html", nil)
+}
 
 func main() {
 
@@ -25,15 +33,21 @@ func main() {
 
 	defer dbConn.Close()
 
-	controllers.InitRoutes()
-
 	fmt.Println("Conexión a la base de datos establecida exitosamente")
 
-	//levantar un servidor para verificar la conexion con la base de datos
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatalf("Error al iniciar el servidor: %v", err)
-	}
+	// Crear router para la API REST
+	r := mux.NewRouter()
 
+	//Rutas del sistema
+	controllers.InitRoutes(r)
+
+	//Rita para vista html
+	r.HandleFunc("/" , home).Methods("GET")
+
+	//levantar un servidor para verificar la conexion con la base de datos
+	fmt.Println("Servidor iniciado en http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", r))
+	
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -111,6 +125,7 @@ func listUsersMenu() {
 	fmt.Println("\nUsuarios registrados:")
 	for _, u := range users {
 		fmt.Printf("ID: %d | Nombre: %s | Email: %s\n", u.ID, u.Name, u.Email)
+		
 	}
 }
 
@@ -184,4 +199,5 @@ func listPaymentsMenu() {
 		fmt.Printf("ID: %d | Pedido ID: %d | Monto: %.2f | Método: %s | Estado: %s\n", p.ID, p.OrderID, p.Amount, p.Method, p.Status)
 	}	
 }
+//
 

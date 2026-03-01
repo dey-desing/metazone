@@ -1,4 +1,4 @@
-# 🛒 MetaZone — Sistema de E-commerce en Go
+# MetaZone — Sistema de E-commerce en Go
 
 > Proyecto académico de gestión de e-commerce desarrollado en **Go (Golang)** con base de datos **MySQL (Laragon)** y plantillas HTML usando **Bulma CSS**.
 
@@ -16,7 +16,7 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 
 ---
 
-## 🔧 Tecnologías utilizadas
+## Tecnologías utilizadas
 
 | **Go (Golang)** | Lenguaje backend | Compilado, rápido, excelente para APIs y servidores web |
 | **MySQL** | Base de datos | Relacional, gratuito, integrado en Laragon |
@@ -31,27 +31,27 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 
 ## 🚀 Servicios implementados
 
-### 1. 👤 Registro de usuario
+### 1. Registro de usuario
 - **Ruta:** `GET /registro` · `POST /registro`
 - **Función:** El usuario completa un formulario con nombre, apellido, email y contraseña.
 - **Seguridad:** La contraseña se hashea con **bcrypt** antes de guardarse. Nunca se almacena en texto plano.
 - **Auto-login:** Tras registrarse, se crea una sesión automáticamente.
 - **Archivos:** `handlers.go → RegisterForm/RegisterSubmit`, `services.go → RegistrarUsuario`
 
-### 2. 🔐 Login de usuario
+### 2. Login de usuario
 - **Ruta:** `GET /login` · `POST /login`
 - **Función:** Verifica email y contraseña contra los datos almacenados.
 - **Sesión:** Usa cookies firmadas (`gorilla/sessions`) para mantener la sesión entre páginas.
 - **Seguridad:** No se revela si el email existe o no (mismo mensaje de error para ambos casos).
 - **Archivos:** `handlers.go → LoginForm/LoginSubmit`, `services.go → AutenticarUsuario`
 
-### 3. 📦 Registro de producto (Admin)
+### 3. Registro de producto (Admin)
 - **Ruta:** `GET /admin/productos/nuevo` · `POST /admin/productos/nuevo`
 - **Función:** El administrador puede agregar productos con nombre, descripción, precio, stock e imagen.
 - **Protección:** Solo accesible con rol `admin` (verificado en middleware).
 - **Archivos:** `handlers.go → AdminProductCreate`, `services.go → CrearProducto`
 
-### 4. 📊 Stock de productos (Admin)
+### 4. Stock de productos (Admin)
 - **Ruta:** `GET /admin/stock` · `POST /admin/stock/{id}`
 - **Función:** Panel para ver el inventario actual y actualizar unidades disponibles.
 - **Indicadores visuales:** Verde = OK, Amarillo = pocas unidades, Rojo = agotado.
@@ -64,19 +64,19 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 - **Persistencia:** El carrito se guarda en la base de datos (no en la sesión).
 - **Archivos:** `handlers.go → CartAdd`, `services.go → AgregarAlCarrito`
 
-### 6. 💳 Selección de método de pago
+### 6. Selección de método de pago
 - **Ruta:** `GET /pago`
 - **Función:** El usuario elige entre 3 métodos: tarjeta, transferencia bancaria o contra entrega.
 - **UI dinámica:** Al seleccionar "tarjeta", aparecen los campos del número de tarjeta (JavaScript).
 - **Archivos:** `handlers.go → CheckoutForm`, `templates/pages/checkout.html`
 
-### 7. ✅ Finalizar compra
+### 7. Finalizar compra
 - **Ruta:** `POST /pago`
 - **Función:** Crea el pedido, descuenta el stock y vacía el carrito. Todo en una **transacción SQL**.
 - **Transacción:** Si algo falla (stock insuficiente, error de DB), todo se revierte automáticamente.
 - **Archivos:** `handlers.go → CheckoutSubmit`, `services.go → CrearPedido`
 
-### 8. 🔍 Búsqueda de productos
+### 8. Búsqueda de productos
 - **Ruta:** `GET /buscar?q=texto`
 - **Función:** Filtra productos por nombre, descripción o categoría.
 - **SQL:** Usa `LIKE` con `%` para búsqueda parcial.
@@ -90,7 +90,7 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 
 ---
 
-## ✅ Requisitos previos
+## Requisitos previos
 
 1. **Go 1.21+** → https://go.dev/dl/
 2. **Laragon** (Windows) → https://laragon.org/download/
@@ -98,7 +98,7 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 
 ---
 
-## 🗄️ Configuración de la base de datos
+## Configuración de la base de datos
 
 ### Paso 1: Iniciar Laragon
 Abre Laragon y haz clic en **"Start All"** (inicia Apache + MySQL).
@@ -110,7 +110,7 @@ Abre Laragon y haz clic en **"Start All"** (inicia Apache + MySQL).
 4. Cotejamiento: `utf8mb4_unicode_ci`
 5. Haz clic en **"Crear"**
 
-> **¡Listo!** Las tablas se crean automáticamente cuando ejecutas el proyecto.
+Las tablas se crean automáticamente cuando se ejecuta el proyecto.
 
 ### Configuración por defecto (Laragon)
 ```
@@ -133,7 +133,7 @@ UPDATE usuarios SET rol = 'admin' WHERE email = 'tu@email.com';
 
 ---
 
-## 🧠 Cómo funciona el código
+## Cómo funciona el código
 
 ### Arquitectura en capas
 
@@ -174,7 +174,7 @@ UPDATE usuarios SET rol = 'admin' WHERE email = 'tu@email.com';
 
 ---
 
-## 🔄 Flujo de una petición HTTP
+## Flujo de una petición HTTP
 
 **Ejemplo: Usuario agrega un producto al carrito**
 
@@ -195,7 +195,7 @@ UPDATE usuarios SET rol = 'admin' WHERE email = 'tu@email.com';
 
 ---
 
-## 📘 Conceptos clave de Go usados
+## Conceptos clave de Go usados
 
 ### Structs y métodos
 ```go

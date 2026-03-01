@@ -29,7 +29,7 @@ MetaZone es un sistema de gestión de e-commerce completo que permite:
 
 ---
 
-## 🚀 Servicios implementados
+## Servicios implementados
 
 ### 1. Registro de usuario
 - **Ruta:** `GET /registro` · `POST /registro`
